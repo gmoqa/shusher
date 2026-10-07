@@ -1,0 +1,36 @@
+<!doctype html>
+<!-- Imagen para compartir (1200x630). tools/build_site.py --og reemplaza {{h1}}, {{bubble}} y {{docs}}. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Nunito"; src: url("{{docs}}fonts/nunito-latin.woff2") format("woff2"); font-weight: 200 1000; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { display: grid; grid-template-columns: 1fr 520px; gap: 48px; align-items: center; padding: 0 64px; box-sizing: border-box;
+    background: #FFF4E0; color: #33303F; font-family: "Nunito", sans-serif; }
+  .brand { display: flex; align-items: center; gap: 16px; font-size: 40px; font-weight: 900; margin-bottom: 28px; }
+  .brand img { width: 72px; height: 72px; border-radius: 18px; }
+  h1 { margin: 0; font-size: 64px; line-height: 1.08; font-weight: 900; }
+  .tablet { padding: 14px; background: #33303F; border-radius: 36px; }
+  .screen { position: relative; aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden;
+    background:
+      radial-gradient(circle at 14% 20%, #FFD84D 0 8%, transparent 8.5%),
+      radial-gradient(ellipse 12% 6% at 80% 34%, #fff 98%, transparent),
+      radial-gradient(ellipse 9% 5% at 88% 31%, #fff 98%, transparent),
+      radial-gradient(120% 60% at 15% 105%, #7ED37A 0 45%, transparent 45.5%),
+      radial-gradient(110% 55% at 90% 110%, #5CBF6A 0 45%, transparent 45.5%),
+      linear-gradient(#7CCBF5, #D4F1FF); }
+  .dim { position: absolute; inset: 0; background: #0F2438; opacity: .5; }
+  .screen img { position: absolute; left: 50%; top: 50%; height: 82%; transform: translate(-44%, -48%); }
+  .bubble { position: absolute; left: 63%; top: 12%; padding: 8px 22px; background: #fff; border: 3px solid #33303F;
+    border-radius: 999px; font-weight: 900; font-size: 30px; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="brand"><img src="{{docs}}img/icon.png" alt="">Shusher</div>
+    <h1>{{h1}}</h1>
+  </div>
+  <div class="tablet"><div class="screen"><div class="dim"></div><img src="{{docs}}img/girl.webp" alt=""><div class="bubble">{{bubble}}</div></div></div>
+</body>
+</html>

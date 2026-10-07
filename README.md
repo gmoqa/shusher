@@ -27,11 +27,17 @@ Requires JDK 17+ and the Android SDK.
 ./gradlew test           # unit tests
 ```
 
-The landing page lives in `docs/` and is served with GitHub Pages.
+The landing page is generated into `docs/` (served by GitHub Pages) from `site/`:
+
+```sh
+python3 tools/build_site.py        # one static page per language + sitemap
+python3 tools/build_site.py --og   # also the social preview images (needs Chrome and ImageMagick)
+```
 
 ## Credits
 
 - [Nunito](https://github.com/googlefonts/nunito) font, SIL Open Font License (`app/src/main/assets/fonts/OFL.txt`).
 - Flags from [flag-icons](https://github.com/lipis/flag-icons) (MIT).
+- Icons from [Material Symbols](https://github.com/google/material-design-icons) (Apache 2.0).
 - The website shows Peppa Pig (© Entertainment One / Hasbro) and The Backyardigans (© Nickelodeon / Nelvana)
   only as examples of characters a family can add. Shusher is not affiliated with them.

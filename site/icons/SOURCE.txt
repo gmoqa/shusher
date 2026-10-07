@@ -1,0 +1,2 @@
+Material Symbols Rounded (fill 1, 24px), Google, Apache License 2.0.
+https://github.com/google/material-design-icons
