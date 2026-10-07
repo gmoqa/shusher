@@ -30,7 +30,7 @@
   "not_png": "{n} were not PNG and were skipped",
   "tip": "Tip: add the \"Shusher\" button to Quick Settings to turn it on from the notification shade.",
   "language": "Language",
-  "kofi": "Support on Ko-fi",
+  "github": "Code on GitHub",
   "notif_channel": "Listening",
   "notif_title": "Shusher is listening",
   "overlay_text": "shhh"

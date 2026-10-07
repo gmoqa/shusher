@@ -250,7 +250,7 @@ class MainActivity : Activity() {
 
             addView(text(t("tip"), 15f, MUTED), gap(0, 16))
             val json = I18n.json(this@MainActivity, I18n.current(this@MainActivity))
-            // Abajo: idioma a la izquierda y, discreto a la derecha, el enlace a Ko-fi.
+            // Abajo: idioma a la izquierda y, discreto a la derecha, el enlace al repositorio.
             addView(LinearLayout(this@MainActivity).apply {
                 gravity = Gravity.CENTER_VERTICAL
                 addView(button("${json.getString("flag")}  ${json.getString("name")} · ${t("language")}", CARD) {
@@ -263,12 +263,12 @@ class MainActivity : Activity() {
                 }.apply { setTextColor(INK); textSize = 16f }, LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
                 addView(View(this@MainActivity), LinearLayout.LayoutParams(0, 1, 1f))
                 // Abre el navegador: la app sigue sin permiso de internet.
-                addView(text(t("kofi"), 14f, MUTED).apply {
+                addView(text(t("github"), 14f, MUTED).apply {
                     paintFlags = paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG
                     val p = (8 * dp).toInt()
                     setPadding(p, p, 0, p) // área táctil más cómoda
                     setOnClickListener {
-                        runCatching { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://ko-fi.com/gmoqa"))) }
+                        runCatching { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/gmoqa/shusher"))) }
                     }
                 })
             })
