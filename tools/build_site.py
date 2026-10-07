@@ -73,6 +73,8 @@ def render(lang, template, sprite):
         "og_image": BASE + f"img/og-{lang}.jpg", "jsonld": json.dumps(jsonld, ensure_ascii=False),
         "icons": sprite, "lang_menu": menu, "flag": FLAGS[lang], "code": lang.upper(),
         "others": json.dumps(LANGS[1:]),
+        "og_alternates": "\n".join(f'<meta property="og:locale:alternate" content="{STRINGS[l]["og.locale"]}">'
+                                   for l in LANGS if l != lang),
     }
 
     def sub(m):
