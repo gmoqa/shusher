@@ -49,7 +49,7 @@ def render(lang, template, sprite):
     menu = "\n".join(
         f'          <li><a href="{root}{path(l)}" hreflang="{l}" lang="{l}"'
         + (' aria-current="page"' if l == lang else "")
-        + f'><img class="flag" src="{root}img/flags/{FLAGS[l]}.webp" width="24" height="18" alt="">'
+        + f'><img class="flag" src="{root}img/flags/{FLAGS[l]}.webp" width="24" height="18" alt="" loading="lazy">'
         + f"{html.escape(STRINGS[l]['name'])}</a></li>"
         for l in LANGS
     )
@@ -70,7 +70,7 @@ def render(lang, template, sprite):
     }
     values = {
         "lang": lang, "root": root, "path": path(lang), "url": url, "alternates": alternates,
-        "og_image": BASE + f"img/og-{lang}.png", "jsonld": json.dumps(jsonld, ensure_ascii=False),
+        "og_image": BASE + f"img/og-{lang}.jpg", "jsonld": json.dumps(jsonld, ensure_ascii=False),
         "icons": sprite, "lang_menu": menu, "flag": FLAGS[lang], "code": lang.upper(),
         "others": json.dumps(LANGS[1:]),
     }
@@ -112,9 +112,10 @@ def og_images():
             subprocess.run(["google-chrome", "--headless=new", "--disable-gpu", "--hide-scrollbars",
                             f"--user-data-dir={tmp}/chrome", "--window-size=1200,630", "--virtual-time-budget=3000",
                             f"--screenshot={shot}", page.as_uri()], check=True, capture_output=True)
-            subprocess.run(["magick", shot, "-strip", "-define", "png:compression-level=9",
-                            DOCS / "img" / f"og-{lang}.png"], check=True)
-            print(f"docs/img/og-{lang}.png")
+            # JPEG: la mitad de peso que PNG; WhatsApp y otras redes la cargan más rápido.
+            subprocess.run(["magick", shot, "-strip", "-quality", "85", "-sampling-factor", "4:2:0",
+                            DOCS / "img" / f"og-{lang}.jpg"], check=True)
+            print(f"docs/img/og-{lang}.jpg")
 
 
 def main():
