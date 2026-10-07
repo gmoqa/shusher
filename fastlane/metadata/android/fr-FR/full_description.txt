@@ -1,0 +1,24 @@
+Shusher aide les enfants autistes (et tous les enfants) à remarquer quand leur voix monte trop pendant qu’ils utilisent une tablette ou un téléphone, sans gronder et sans faire peur.
+
+Quand l’application détecte un cri, l’écran s’assombrit en douceur et un personnage sympathique apparaît en faisant « chut », avec un son bref. Deux secondes plus tard, tout redevient normal et l’enfant peut continuer à regarder ou à jouer.
+
+COMMENT ÇA MARCHE
+• Elle écoute en arrière-plan tant que l’écran est allumé.
+• Si le son reste un instant dans la zone orange, c’est un cri. Les bruits brefs, comme une porte qui claque, ne comptent pas.
+• Le rappel apparaît par-dessus n’importe quelle application : vidéos, jeux, dessin. Les touches hors du personnage arrivent toujours à l’application en dessous.
+
+PENSÉE POUR NE PAS EFFRAYER
+• Fondu doux à l’entrée et à la sortie, fond bleu nuit et rien qui clignote.
+• Toujours les trois mêmes étapes, pour un rappel prévisible.
+
+POUR LES FAMILLES, AIDANTS ET THÉRAPEUTES
+• Indicateur de sensibilité en direct : parlez et regardez la barre verte ; placez le point juste au-dessus d’une voix normale.
+• Journal quotidien des 7 derniers jours.
+• Livrée avec une fille et un garçon ; ajoutez des images PNG des personnages que votre enfant aime.
+• Bouton dans les réglages rapides pour l’activer et la mettre en pause depuis la barre de notifications.
+• Français, anglais, espagnol et portugais.
+
+CONFIDENTIALITÉ
+Shusher n’a pas accès à internet. Le son sert uniquement à mesurer le volume et il est aussitôt oublié ; rien n’est enregistré ni partagé. Écran éteint, le micro se repose.
+
+Gratuite et open source : github.com/gmoqa/shusher

@@ -1,0 +1,24 @@
+Shusher helps autistic kids (and any kid) notice when their voice gets too loud while they use a tablet or phone, without scolding and without scares.
+
+When the app hears a scream, the screen dims softly and a friendly character appears going "shh", with a short sound. Two seconds later everything is back to normal, and your child can keep watching or playing.
+
+HOW IT WORKS
+• It listens in the background while the screen is on.
+• If the sound stays in the orange zone for a moment, it counts as a scream. Short bangs, like a slammed door, don't count.
+• The reminder appears over any app: videos, games, drawing apps. Touches outside the character still reach the app below.
+
+DESIGNED NOT TO STARTLE
+• Soft fade in and out, a night-blue backdrop and nothing that flashes.
+• Always the same three steps, so the reminder is predictable.
+
+FOR PARENTS, CAREGIVERS AND THERAPISTS
+• Live sensitivity meter: talk and watch the green bar; place the dot just above a normal voice.
+• Daily log with the last 7 days.
+• Comes with a girl and a boy; add PNG images of the characters your child loves.
+• Quick Settings button to turn it on and off from the notification shade.
+• English, Spanish, Portuguese and French.
+
+PRIVACY
+Shusher has no internet access. Sound is only used to measure volume and is discarded right away; nothing is recorded or shared. The microphone rests while the screen is off.
+
+Free and open source: github.com/gmoqa/shusher

@@ -34,6 +34,11 @@ python3 tools/build_site.py        # one static page per language + sitemap
 python3 tools/build_site.py --og   # also the social preview images (needs Chrome and ImageMagick)
 ```
 
+## Google Play
+
+Store texts and graphics are in `fastlane/metadata/android/`, and [PLAY_STORE.md](PLAY_STORE.md) has the
+Play Console checklist and the answers for each form.
+
 ## License
 
 The code and the original illustrations, icon and sound are released under the [MIT License](LICENSE). Bundled fonts, icons and flags keep their own

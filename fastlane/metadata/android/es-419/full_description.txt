@@ -1,0 +1,24 @@
+Shusher ayuda a niños y niñas autistas (y a cualquier niño) a darse cuenta de cuándo su voz sube demasiado mientras usan una tablet o un teléfono, sin regaños y sin sustos.
+
+Cuando la app detecta un grito, la pantalla se oscurece con suavidad y aparece un personaje amigable haciendo «shh», con un sonido corto. A los dos segundos todo vuelve a la normalidad y puede seguir viendo o jugando.
+
+CÓMO FUNCIONA
+• Escucha en segundo plano mientras la pantalla está encendida.
+• Si el sonido se mantiene un momento en la zona naranja, cuenta como grito. Los golpes cortos, como un portazo, no cuentan.
+• El aviso aparece sobre cualquier app: videos, juegos, apps de dibujo. Los toques fuera del personaje siguen llegando a la app de abajo.
+
+PENSADA PARA NO SOBRESALTAR
+• Fundido suave de entrada y salida, fondo azul noche y nada que parpadee.
+• Siempre los mismos tres pasos, para que el aviso sea predecible.
+
+PARA FAMILIAS, CUIDADORES Y TERAPEUTAS
+• Medidor de sensibilidad en vivo: habla y mira la barra verde; deja el punto justo por encima de una voz normal.
+• Registro diario con los últimos 7 días.
+• Trae una niña y un niño; agrega imágenes PNG de los personajes que tu hijo o hija quiere.
+• Botón en los ajustes rápidos para activarla y pausarla desde la barra de notificaciones.
+• Español, inglés, portugués y francés.
+
+PRIVACIDAD
+Shusher no tiene acceso a internet. El sonido solo se usa para medir el volumen y se descarta al instante; nada se graba ni se comparte. Con la pantalla apagada el micrófono descansa.
+
+Gratis y de código abierto: github.com/gmoqa/shusher
