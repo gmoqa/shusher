@@ -1,0 +1,62 @@
+{
+  "en": {
+    "title": "Privacy policy · Shusher",
+    "h1": "Privacy policy",
+    "updated": "Last updated: October 7, 2026",
+    "back": "Back to Shusher",
+    "sections": [
+      ["In short", "Shusher does not collect, store or share any personal data. The app does not even have internet access, so it cannot send anything anywhere."],
+      ["Microphone", "When listening is turned on, Shusher reads the microphone to measure how loud the room is, every few hundredths of a second. The sound is used only to calculate that volume level and is discarded immediately: it is never recorded, saved or transmitted. When the screen turns off, the app releases the microphone. Android shows its microphone indicator whenever the app is listening."],
+      ["What stays on your device", "The app keeps a few settings on the device: the chosen language, the sensitivity level and how many reminders were shown each day. It also keeps the PNG images you choose to add as characters. Nothing of this leaves the device, it is not included in Android backups, and it is deleted when you uninstall the app."],
+      ["Permissions", "Microphone: to measure loudness. Display over other apps: to show the reminder on top of any app. Notifications and foreground service: Android requires a visible notification while the app listens in the background. Shusher does not request internet, location, contacts or any other permission."],
+      ["Children", "Shusher is designed to be set up by parents, caregivers or therapists, and the reminder is shown to the child using the device. Because the app collects no data at all, no information is collected from children or from anyone else."],
+      ["Links", "The app and this website link to the project page on GitHub. Those links open in your browser, where GitHub's own privacy policy applies."],
+      ["Changes and contact", "If this policy changes, the new version will be published on this page with a new date. Questions can be sent through the project's issue tracker: <a href=\"https://github.com/gmoqa/shusher/issues\">github.com/gmoqa/shusher/issues</a>."]
+    ]
+  },
+  "es": {
+    "title": "Política de privacidad · Shusher",
+    "h1": "Política de privacidad",
+    "updated": "Última actualización: 7 de octubre de 2026",
+    "back": "Volver a Shusher",
+    "sections": [
+      ["En resumen", "Shusher no recopila, guarda ni comparte ningún dato personal. La app ni siquiera tiene acceso a internet, así que no puede enviar nada a ningún lado."],
+      ["Micrófono", "Cuando la escucha está activada, Shusher lee el micrófono para medir qué tan fuerte suena el ambiente, cada pocas centésimas de segundo. El sonido se usa solo para calcular ese nivel de volumen y se descarta al instante: nunca se graba, guarda ni transmite. Cuando la pantalla se apaga, la app suelta el micrófono. Android muestra su indicador de micrófono siempre que la app está escuchando."],
+      ["Qué queda en tu dispositivo", "La app guarda algunos ajustes en el dispositivo: el idioma elegido, el nivel de sensibilidad y cuántos avisos aparecieron cada día. También guarda las imágenes PNG que elijas agregar como personajes. Nada de esto sale del dispositivo, no se incluye en las copias de seguridad de Android y se borra al desinstalar la app."],
+      ["Permisos", "Micrófono: para medir el volumen. Mostrar sobre otras apps: para que el aviso aparezca encima de cualquier app. Notificaciones y servicio en primer plano: Android exige una notificación visible mientras la app escucha en segundo plano. Shusher no pide acceso a internet, ubicación, contactos ni ningún otro permiso."],
+      ["Niños y niñas", "Shusher está pensada para que la configuren madres, padres, cuidadores o terapeutas, y el aviso lo ve el niño o la niña que usa el dispositivo. Como la app no recopila ningún dato, no se recoge información de niños ni de nadie más."],
+      ["Enlaces", "La app y esta web enlazan a la página del proyecto en GitHub. Esos enlaces se abren en tu navegador, donde aplica la política de privacidad de GitHub."],
+      ["Cambios y contacto", "Si esta política cambia, la nueva versión se publicará en esta página con una nueva fecha. Puedes enviar preguntas en el registro de incidencias del proyecto: <a href=\"https://github.com/gmoqa/shusher/issues\">github.com/gmoqa/shusher/issues</a>."]
+    ]
+  },
+  "pt": {
+    "title": "Política de privacidade · Shusher",
+    "h1": "Política de privacidade",
+    "updated": "Última atualização: 7 de outubro de 2026",
+    "back": "Voltar ao Shusher",
+    "sections": [
+      ["Em resumo", "O Shusher não coleta, guarda nem compartilha nenhum dado pessoal. O app nem sequer tem acesso à internet, então não consegue enviar nada para lugar nenhum."],
+      ["Microfone", "Quando a escuta está ativada, o Shusher lê o microfone para medir o quanto o ambiente está alto, a cada poucos centésimos de segundo. O som é usado apenas para calcular esse nível de volume e é descartado na hora: nunca é gravado, salvo nem transmitido. Quando a tela desliga, o app libera o microfone. O Android mostra o indicador de microfone sempre que o app está ouvindo."],
+      ["O que fica no seu aparelho", "O app guarda alguns ajustes no aparelho: o idioma escolhido, o nível de sensibilidade e quantos avisos apareceram em cada dia. Também guarda as imagens PNG que você escolher adicionar como personagens. Nada disso sai do aparelho, não entra nos backups do Android e é apagado quando você desinstala o app."],
+      ["Permissões", "Microfone: para medir o volume. Sobrepor a outros apps: para mostrar o aviso por cima de qualquer app. Notificações e serviço em primeiro plano: o Android exige uma notificação visível enquanto o app ouve em segundo plano. O Shusher não pede acesso à internet, localização, contatos nem nenhuma outra permissão."],
+      ["Crianças", "O Shusher foi feito para ser configurado por mães, pais, cuidadores ou terapeutas, e o aviso é visto pela criança que usa o aparelho. Como o app não coleta nenhum dado, nenhuma informação é coletada de crianças nem de ninguém."],
+      ["Links", "O app e este site têm links para a página do projeto no GitHub. Esses links abrem no navegador, onde vale a política de privacidade do próprio GitHub."],
+      ["Mudanças e contato", "Se esta política mudar, a nova versão será publicada nesta página com uma nova data. Dúvidas podem ser enviadas pelo registro de problemas do projeto: <a href=\"https://github.com/gmoqa/shusher/issues\">github.com/gmoqa/shusher/issues</a>."]
+    ]
+  },
+  "fr": {
+    "title": "Politique de confidentialité · Shusher",
+    "h1": "Politique de confidentialité",
+    "updated": "Dernière mise à jour : 7 octobre 2026",
+    "back": "Retour à Shusher",
+    "sections": [
+      ["En bref", "Shusher ne collecte, ne conserve et ne partage aucune donnée personnelle. L’application n’a même pas accès à internet : elle ne peut rien envoyer nulle part."],
+      ["Microphone", "Quand l’écoute est activée, Shusher lit le micro pour mesurer le niveau sonore de la pièce, toutes les quelques centièmes de seconde. Le son sert uniquement à calculer ce niveau et il est aussitôt oublié : il n’est jamais enregistré, conservé ni transmis. Quand l’écran s’éteint, l’application libère le micro. Android affiche son indicateur de micro chaque fois que l’application écoute."],
+      ["Ce qui reste sur votre appareil", "L’application conserve quelques réglages sur l’appareil : la langue choisie, le niveau de sensibilité et le nombre de rappels affichés chaque jour. Elle conserve aussi les images PNG que vous ajoutez comme personnages. Rien de tout cela ne quitte l’appareil, rien n’est inclus dans les sauvegardes Android, et tout est supprimé quand vous désinstallez l’application."],
+      ["Autorisations", "Micro : pour mesurer le niveau sonore. Affichage par-dessus les autres applications : pour montrer le rappel au-dessus de n’importe quelle application. Notifications et service au premier plan : Android exige une notification visible pendant que l’application écoute en arrière-plan. Shusher ne demande ni internet, ni localisation, ni contacts, ni aucune autre autorisation."],
+      ["Enfants", "Shusher est conçue pour être configurée par les parents, les aidants ou les thérapeutes, et le rappel est vu par l’enfant qui utilise l’appareil. Comme l’application ne collecte aucune donnée, aucune information n’est collectée auprès des enfants ni de personne."],
+      ["Liens", "L’application et ce site renvoient vers la page du projet sur GitHub. Ces liens s’ouvrent dans votre navigateur, où s’applique la politique de confidentialité de GitHub."],
+      ["Modifications et contact", "Si cette politique change, la nouvelle version sera publiée sur cette page avec une nouvelle date. Vous pouvez poser vos questions via le suivi des problèmes du projet : <a href=\"https://github.com/gmoqa/shusher/issues\">github.com/gmoqa/shusher/issues</a>."]
+    ]
+  }
+}

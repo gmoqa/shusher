@@ -91,11 +91,29 @@ def render(lang, template, sprite):
     return page
 
 
+def render_privacy(lang, template):
+    p = json.loads((SITE / "privacy.json").read_text(encoding="utf-8"))[lang]
+    root = "" if lang == LANGS[0] else "../../"
+    url = BASE + path(lang) + "privacy/"
+    alternates = "\n".join(
+        [f'<link rel="alternate" hreflang="{l}" href="{BASE + path(l)}privacy/">' for l in LANGS]
+        + [f'<link rel="alternate" hreflang="x-default" href="{BASE}privacy/">']
+    )
+    sections = "\n".join(f"  <h2>{html.escape(h)}</h2>\n  <p>{body}</p>" for h, body in p["sections"])  # body: HTML propio
+    values = {"lang": lang, "root": root, "url": url, "alternates": alternates, "sections": sections,
+              "home": ("../" if lang == LANGS[0] else "../") , "title": html.escape(p["title"]),
+              "h1": html.escape(p["h1"]), "updated": html.escape(p["updated"]), "back": html.escape(p["back"])}
+    page = re.sub(r"\{\{(\w+)\}\}", lambda m: values[m[1]], template)
+    assert "{{" not in page, f"{lang}: marcadores sin reemplazar en privacy"
+    return page
+
+
 def sitemap():
     urls = []
-    for lang in LANGS:
-        alts = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE + path(l)}"/>' for l in LANGS)
-        urls.append(f"  <url><loc>{BASE + path(lang)}</loc>{alts}</url>")
+    for page in ["", "privacy/"]:
+        for lang in LANGS:
+            alts = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE + path(l) + page}"/>' for l in LANGS)
+            urls.append(f"  <url><loc>{BASE + path(lang) + page}</loc>{alts}</url>")
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
             + "\n".join(urls) + "\n</urlset>\n")
@@ -127,6 +145,12 @@ def main():
         out = DOCS / path(lang) / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(render(lang, template, sprite), encoding="utf-8")
+        print(out.relative_to(ROOT))
+    privacy = (SITE / "privacy.html").read_text(encoding="utf-8")
+    for lang in LANGS:
+        out = DOCS / path(lang) / "privacy" / "index.html"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(render_privacy(lang, privacy), encoding="utf-8")
         print(out.relative_to(ROOT))
     (DOCS / "sitemap.xml").write_text(sitemap(), encoding="utf-8")
     (DOCS / ".nojekyll").write_text("")  # GitHub Pages sirve los archivos tal cual, sin procesarlos con Jekyll

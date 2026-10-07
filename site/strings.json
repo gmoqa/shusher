@@ -48,7 +48,8 @@
     "title": "Shusher · A gentle reminder when voices get loud",
     "desc": "Free Android app that shows a calm visual reminder when it hears a scream. Made for autistic kids who shout while using their tablet, and for the families who support them.",
     "og.locale": "en_US",
-    "name": "English"
+    "name": "English",
+    "privacy": "Privacy"
   },
   "es": {
     "title": "Shusher · Un aviso amable cuando la voz sube",
@@ -99,7 +100,8 @@
     "foot": "Hecho por una familia, para familias",
     "desc": "App Android gratuita que muestra un aviso visual tranquilo cuando detecta un grito. Pensada para niños y niñas autistas que gritan mientras usan la tablet, y para sus familias.",
     "og.locale": "es_LA",
-    "name": "Español"
+    "name": "Español",
+    "privacy": "Privacidad"
   },
   "pt": {
     "title": "Shusher · Um aviso gentil quando a voz sobe",
@@ -150,7 +152,8 @@
     "foot": "Feito por uma família, para famílias",
     "desc": "App Android gratuito que mostra um aviso visual tranquilo quando detecta um grito. Feito para crianças autistas que gritam enquanto usam o tablet, e para suas famílias.",
     "og.locale": "pt_BR",
-    "name": "Português"
+    "name": "Português",
+    "privacy": "Privacidade"
   },
   "fr": {
     "title": "Shusher · Un rappel tout doux quand la voix monte",
@@ -201,6 +204,7 @@
     "foot": "Fait par une famille, pour les familles",
     "desc": "Application Android gratuite qui affiche un rappel visuel calme quand elle détecte un cri. Pensée pour les enfants autistes qui crient en utilisant leur tablette, et pour leurs familles.",
     "og.locale": "fr_FR",
-    "name": "Français"
+    "name": "Français",
+    "privacy": "Confidentialité"
   }
 }
