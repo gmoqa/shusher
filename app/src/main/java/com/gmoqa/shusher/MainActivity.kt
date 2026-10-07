@@ -392,8 +392,7 @@ class MainActivity : Activity() {
 
     /**
      * Instalación nueva: copia los personajes incluidos (assets/defaults) a la carpeta de imágenes.
-     * Se decide por la carpeta y no por una marca en preferencias: Android restaura las preferencias
-     * desde el respaldo al reinstalar, pero no esta carpeta. Si existe vacía, el usuario los quitó.
+     * Se decide por la carpeta: si existe vacía, el usuario los quitó.
      */
     private fun copyDefaults() {
         val dir = File(getExternalFilesDir(null) ?: return, "images")
