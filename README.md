@@ -36,7 +36,7 @@ python3 tools/build_site.py --og   # also the social preview images (needs Chrom
 
 ## License
 
-The code is released under the [MIT License](LICENSE). Bundled fonts, icons and flags keep their own
+The code and the original illustrations, icon and sound are released under the [MIT License](LICENSE). Bundled fonts, icons and flags keep their own
 licenses, and the cartoon characters on the website are not covered: see
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 

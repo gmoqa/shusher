@@ -1,7 +1,8 @@
 # Third-party notices
 
-The MIT license in `LICENSE` covers Shusher's own source code. The following files are included
-under their own licenses, which are kept next to them.
+The MIT license in `LICENSE` covers Shusher's own source code and original assets: the girl and boy
+illustrations, the app icon and the “shh” sound, by Guillermo Quinteros.
+The following files are included under their own licenses, which are kept next to them.
 
 | Files | Project | License |
 |---|---|---|
