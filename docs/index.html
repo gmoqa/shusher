@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shusher · A gentle reminder when voices get loud</title>
+<meta name="description" content="Free Android app that shows a calm visual reminder when it hears a scream. Made for autistic kids who shout while using their tablet, and for the families who support them.">
+<meta property="og:title" content="Shusher">
+<meta property="og:description" content="A gentle reminder when voices get loud.">
+<meta property="og:image" content="img/girl.webp">
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,600,1,0&icon_names=battery_charging_full,bolt,check,code,expand_more,favorite,hearing,language,nightlight">
+<style>
+  @font-face { font-family: "Nunito"; src: url("fonts/Nunito.ttf") format("truetype"); font-weight: 200 1000; font-display: swap; }
+  :root {
+    --bg: #FFF4E0; --card: #FFFFFF; --ink: #33303F; --muted: #6E6A7C;
+    --calm: #2E9BDA; --warm: #E8684A; --green: #6FD66F; --mint: #5CC992; --track: #F6EAD3; --night: #0F2438;
+    --quiet: #D3ECFA; --alert: #FFD3C4; --pink: #FFD6E0; --yellow: #FFE9A8;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.6 "Nunito", system-ui, sans-serif; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--calm); }
+  h1, h2, h3 { line-height: 1.12; margin: 0 0 .45em; font-weight: 900; }
+  h2 { font-size: clamp(1.8rem, 3.8vw, 2.6rem); }
+  h3 { font-size: 1.35rem; }
+  p { margin: 0 0 1em; }
+  .muted { color: var(--muted); }
+  .material-symbols-rounded { vertical-align: middle; line-height: 1; }
+  .center { text-align: center; }
+  .card { background: var(--card); border: 3px solid var(--ink); border-radius: 28px; }
+
+  /* --- encabezado --- */
+  header.top { display: flex; align-items: center; gap: 12px; padding: 20px 0; }
+  header.top > img { width: 44px; height: 44px; border-radius: 12px; } /* solo el logo, no las banderas */
+  header.top strong { font-size: 1.35rem; font-weight: 900; }
+  header.top nav { margin-left: auto; display: flex; align-items: center; gap: 22px; }
+  header.top nav a { color: var(--ink); text-decoration: none; font-weight: 800; font-size: .95rem; }
+  /* Selector de idioma propio: un select nativo no admite imágenes (y las banderas emoji no van). */
+  .lang { position: relative; }
+  .lang button { font: inherit; font-weight: 800; color: var(--ink); cursor: pointer; }
+  .lang-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 6px 5px 10px;
+    background: var(--card); border: 3px solid var(--ink); border-radius: 999px; font-size: .9rem; }
+  .flag { width: 24px; height: 18px; border-radius: 4px; box-shadow: 0 0 0 1px rgba(0,0,0,.15); flex: none; }
+  .lang-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 10; min-width: 190px; margin: 0; padding: 6px;
+    list-style: none; background: var(--card); border: 3px solid var(--ink); border-radius: 18px; box-shadow: 0 18px 36px -18px rgba(15,36,56,.5); }
+  .lang-menu button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px;
+    border: 0; border-radius: 12px; background: none; font-size: 1rem; text-align: left; }
+  .lang-menu button:hover { background: var(--track); }
+  .lang-menu button[aria-selected="true"] { background: var(--quiet); }
+
+  /* --- portada --- */
+  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 40px 0 0; }
+  #how { padding-top: 32px; } /* pegada a la portada: es la continuación natural */
+  .hero h1 { font-size: clamp(2.3rem, 4.8vw, 3.5rem); }
+  .hero .lead { font-size: 1.3rem; color: var(--muted); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 18px; }
+  .btn {
+    display: inline-block; padding: 14px 26px; border-radius: 999px; font-weight: 900; font-size: 1.05rem;
+    text-decoration: none; color: #fff; background: var(--calm); border: 3px solid var(--ink);
+  }
+  .btn.ghost { background: var(--card); color: var(--ink); }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); font-weight: 700; font-size: .95rem; }
+  .facts .material-symbols-rounded { color: var(--mint); font-size: 22px; }
+
+  /* Tablet dibujada: una escena infantil (como un video) y el aviso encima. */
+  .tablet { position: relative; padding: 14px; background: var(--ink); border-radius: 36px; box-shadow: 0 34px 60px -30px rgba(15,36,56,.55); }
+  .screen { position: relative; aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden;
+    background: /* sol, nubes, colinas y cielo: como un video infantil */
+      radial-gradient(circle at 14% 20%, #FFD84D 0 8%, transparent 8.5%),
+      radial-gradient(ellipse 12% 6% at 80% 34%, #fff 98%, transparent),
+      radial-gradient(ellipse 9% 5% at 88% 31%, #fff 98%, transparent),
+      radial-gradient(ellipse 11% 5% at 34% 12%, #fff 98%, transparent),
+      radial-gradient(120% 60% at 15% 105%, #7ED37A 0 45%, transparent 45.5%),
+      radial-gradient(110% 55% at 90% 110%, #5CBF6A 0 45%, transparent 45.5%),
+      linear-gradient(#7CCBF5, #D4F1FF);
+  }
+  .screen .dim { position: absolute; inset: 0; background: var(--night); opacity: .5; }
+  /* Centrada con aire arriba y abajo; corrida un poco a la derecha para que la cara quede al centro. */
+  .screen img { position: absolute; left: 50%; top: 50%; height: 82%; transform: translate(-44%, -48%); }
+  .bubble {
+    position: absolute; left: 63%; top: 12%; padding: 8px 20px; background: #fff; border: 3px solid var(--ink);
+    border-radius: 999px; font-weight: 900; font-size: clamp(1.1rem, 2.2vw, 1.6rem); color: var(--ink);
+  }
+
+  section { padding: 64px 0; }
+  .intro { max-width: 640px; margin: 0 auto 40px; }
+
+  /* --- cómo funciona --- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .step { padding: 28px; }
+  .step .art { height: 120px; display: grid; place-items: center; margin-bottom: 18px; border-radius: 20px; background: var(--quiet); }
+  .step:nth-child(2) .art { background: var(--yellow); }
+  .step:nth-child(3) .art { background: var(--pink); }
+  .step .num { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-right: 8px; border-radius: 50%;
+    background: var(--calm); color: #fff; font-weight: 900; font-size: 1rem; border: 3px solid var(--ink); vertical-align: middle; }
+  .step h3 { display: inline; vertical-align: middle; }
+  .step p { color: var(--muted); margin: 12px 0 0; }
+  .ear { font-size: 72px; color: var(--calm); }
+  .meter { position: relative; width: 78%; height: 28px; border: 3px solid var(--ink); border-radius: 99px;
+    background: linear-gradient(90deg, var(--quiet) 0 68%, var(--alert) 68%); }
+  .meter::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 78%; border-radius: 99px; background: var(--warm); }
+  .meter::after { content: ""; position: absolute; left: 68%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px;
+    border-radius: 50%; background: #fff; border: 3px solid var(--ink); box-shadow: inset 0 0 0 8px #fff, inset 0 0 0 14px var(--ink); }
+  .step .art { overflow: hidden; }
+  .step .mini { height: 150px; margin-top: 30px; }
+
+  /* --- para familias --- */
+  .rows { display: grid; gap: 64px; }
+  .row { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center; }
+  .row.flip .media { order: -1; }
+  .row h3 { font-size: 1.6rem; }
+  .row p { color: var(--muted); font-size: 1.15rem; }
+  .media img.shot { display: block; width: 100%; height: auto; border-radius: 26px; box-shadow: 0 24px 50px -30px rgba(15,36,56,.5); }
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .tile:nth-child(4n+1) { background: var(--pink); }
+  .tile:nth-child(4n+2) { background: var(--yellow); }
+  .tile:nth-child(4n+3) { background: #CDEFD9; }
+  .tile:nth-child(4n+4) { background: var(--quiet); }
+  .row p.credits { margin: 12px 0 0; font-size: .68rem; line-height: 1.45; color: #A39FAE; } /* le gana a ".row p" */
+  .tile { position: relative; aspect-ratio: 1; border-radius: 20px; border: 3px solid var(--ink); overflow: hidden; }
+  .tile img { position: absolute; inset: 0; margin: auto; height: 88%; }
+  .tile.add { display: grid; place-items: center; background: var(--card) !important; font-weight: 900; font-size: 1.3rem; color: var(--muted); border-style: dashed; }
+
+  .strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .strip div { padding: 20px; text-align: center; font-weight: 800; }
+  .strip .material-symbols-rounded { display: block; font-size: 40px; margin: 0 auto 8px; color: var(--calm); }
+
+  .privacy { background: var(--night); color: #F1EDE4; border-radius: 32px; padding: 48px; border: 3px solid var(--ink); text-align: center; }
+  .privacy p { color: #B9C2CC; max-width: 40em; margin: 0 auto; font-size: 1.1rem; }
+
+  /* --- descargar --- */
+  .get { padding: 48px; text-align: center; }
+  .get ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; list-style: none; padding: 0; margin: 28px 0 32px; counter-reset: s; text-align: left; }
+  .get li { counter-increment: s; padding: 20px; border-radius: 20px; background: var(--bg); }
+  .get li::before { content: counter(s); display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 10px;
+    border-radius: 50%; background: var(--calm); color: #fff; font-weight: 900; border: 3px solid var(--ink); }
+  .get li { color: var(--muted); }
+  .get .dev { margin: 18px 0 0; font-size: .95rem; }
+
+  footer { padding: 32px 0 48px; color: var(--muted); font-size: .95rem; display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
+  footer img { width: 32px; border-radius: 8px; }
+  footer .made { display: flex; align-items: center; gap: 12px; margin-right: auto; }
+  footer .links { display: flex; gap: 20px; }
+  footer .links a { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-weight: 800; text-decoration: none; }
+  footer .links a:hover { color: var(--ink); }
+  footer .links .material-symbols-rounded { font-size: 20px; }
+
+  @media (max-width: 860px) {
+    .hero, .row, .steps, .get ol { grid-template-columns: 1fr; }
+    .row.flip .media { order: 0; }
+    .strip { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 8px 0 8px; gap: 28px; }
+    header.top nav a { display: none; }
+    footer { justify-content: center; text-align: center; }
+    footer .made { margin: 0; }
+    .buttons .btn, .get .btn { display: block; flex: 1 1 100%; text-align: center; }
+    .privacy, .get { padding: 28px 20px; }
+    section { padding: 36px 0; }
+    .intro { margin-bottom: 24px; }
+    .rows { gap: 40px; }
+    .row { gap: 18px; }
+    .row h3 { font-size: 1.4rem; }
+    .media img.shot { width: calc(100% + 16px); margin: 0 -8px; border-radius: 20px; }
+    /* pasos en horizontal: dibujo chico a la izquierda, texto a la derecha */
+    .step { display: grid; grid-template-columns: 84px 1fr; column-gap: 16px; align-items: center; padding: 18px; }
+    .step .art { height: 84px; margin: 0; }
+    .step p { margin: 4px 0 0; font-size: .98rem; }
+    .ear { font-size: 48px; }
+    .meter { width: 86%; height: 20px; }
+    .meter::after { width: 22px; height: 22px; margin: -11px 0 0 -11px; box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 10px var(--ink); }
+    .meter::before { left: 4px; top: 4px; bottom: 4px; }
+    .step .mini { height: 96px; margin-top: 18px; }
+    .step h3 { font-size: 1.2rem; }
+    .step .num { width: 28px; height: 28px; font-size: .9rem; }
+    /* pasos de descarga: número a la izquierda */
+    .get ol { gap: 10px; margin: 20px 0 24px; }
+    .get li { display: flex; gap: 14px; align-items: center; padding: 14px 16px; }
+    .get li::before { flex: none; margin: 0; }
+    .strip div { padding: 16px 10px; }
+    .tile.add { font-size: .9rem; white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img src="img/icon.png" alt="">
+    <strong>Shusher</strong>
+    <nav>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#families" data-i18n="nav.families">For families</a>
+      <a href="#get" data-i18n="nav.get">Download</a>
+      <div class="lang" id="lang">
+        <button type="button" class="lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Language">
+          <img class="flag" src="img/flags/gb.webp" alt=""><span class="code">EN</span>
+          <span class="material-symbols-rounded">expand_more</span>
+        </button>
+        <ul class="lang-menu" role="listbox" hidden>
+          <li><button type="button" role="option" data-lang="en"><img class="flag" src="img/flags/gb.webp" alt="">English</button></li>
+          <li><button type="button" role="option" data-lang="es"><img class="flag" src="img/flags/es.webp" alt="">Español</button></li>
+          <li><button type="button" role="option" data-lang="pt"><img class="flag" src="img/flags/br.webp" alt="">Português</button></li>
+          <li><button type="button" role="option" data-lang="fr"><img class="flag" src="img/flags/fr.webp" alt="">Français</button></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1 data-i18n="hero.h1">A gentle reminder when voices get loud</h1>
+        <p class="lead" data-i18n="hero.lead">When your child shouts while using the tablet, a friendly character appears going “shh”. No scolding, no scares.</p>
+        <div class="buttons">
+          <a class="btn" href="#get" data-i18n="hero.get">Download for Android</a>
+          <a class="btn ghost" href="#how" data-i18n="hero.how">See how it works</a>
+        </div>
+        <div class="facts">
+          <span><span class="material-symbols-rounded">check</span> <span data-i18n="fact.free">Free</span></span>
+          <span><span class="material-symbols-rounded">check</span> <span data-i18n="fact.offline">No internet</span></span>
+          <span><span class="material-symbols-rounded">check</span> <span data-i18n="fact.android">Android 8+</span></span>
+        </div>
+      </div>
+      <div class="tablet" role="img" aria-label="" data-i18n-aria="alt.hero">
+        <div class="screen">
+          <div class="dim"></div>
+          <img src="img/girl.webp" alt="">
+          <div class="bubble" data-i18n="bubble">shhh</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="how">
+      <div class="intro center">
+        <h2 data-i18n="how.h2">How it works</h2>
+        <p class="muted" data-i18n="how.sub">Always the same three steps. A predictable reminder is part of the idea.</p>
+      </div>
+      <div class="steps">
+        <div class="step card">
+          <div class="art"><span class="material-symbols-rounded ear">hearing</span></div>
+          <div class="body">
+            <span class="num">1</span><h3 data-i18n="how.1.h">It listens</h3>
+            <p data-i18n="how.1.p">While the screen is on, it measures how loud it is. It never records.</p>
+          </div>
+        </div>
+        <div class="step card">
+          <div class="art"><div class="meter"></div></div>
+          <div class="body">
+            <span class="num">2</span><h3 data-i18n="how.2.h">It spots the scream</h3>
+            <p data-i18n="how.2.p">If the sound reaches the orange zone, it’s a scream. Short bangs don’t count.</p>
+          </div>
+        </div>
+        <div class="step card">
+          <div class="art"><img class="mini" src="img/boy.webp" alt=""></div>
+          <div class="body">
+            <span class="num">3</span><h3 data-i18n="how.3.h">It reminds, calmly</h3>
+            <p data-i18n="how.3.p">The screen dims softly, a character appears and a “shh” plays. Two seconds later, all is back.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="families">
+      <div class="intro center">
+        <h2 data-i18n="fam.h2">You stay in control</h2>
+        <p class="muted" data-i18n="fam.sub">A simple screen for parents and therapists. These are real screenshots.</p>
+      </div>
+      <div class="rows">
+        <div class="row">
+          <div><h3 data-i18n="fam.1.h">Sensitivity that fits your child</h3>
+            <p data-i18n="fam.1.p">Talk and watch the green bar move. Slide the dot just above a normal voice: only shouts will reach the orange zone.</p></div>
+          <div class="media"><img class="shot" data-shot="sensitivity" src="img/screens/en-sensitivity.webp" width="900" height="301" alt="" data-i18n-alt="alt.sens" loading="lazy"></div>
+        </div>
+        <div class="row flip">
+          <div><h3 data-i18n="fam.2.h">See how the week is going</h3>
+            <p data-i18n="fam.2.p">Count today’s reminders and compare the last seven days. Fewer reminders, calmer days.</p></div>
+          <div class="media"><img class="shot" data-shot="history" src="img/screens/en-history.webp" width="900" height="503" alt="" data-i18n-alt="alt.hist" loading="lazy"></div>
+        </div>
+        <div class="row">
+          <div><h3 data-i18n="fam.3.h">Their favorite characters</h3>
+            <p data-i18n="fam.3.p">It comes with a girl and a boy. Add PNG images of the characters your child knows and loves; one appears at random.</p></div>
+          <div class="media">
+            <div class="tiles">
+              <div class="tile"><img src="img/girl.webp" alt=""></div>
+              <div class="tile"><img src="img/boy.webp" alt=""></div>
+              <div class="tile"><img src="img/characters/peppa.webp" alt="Peppa Pig"></div>
+              <div class="tile"><img src="img/characters/papa-pig.webp" alt="Daddy Pig"></div>
+              <div class="tile"><img src="img/characters/pablo.webp" alt="Pablo"></div>
+              <div class="tile"><img src="img/characters/tyrone.webp" alt="Tyrone"></div>
+              <div class="tile"><img src="img/characters/uniqua.webp" alt="Uniqua"></div>
+              <div class="tile add" data-i18n="fam.3.add">+ PNG</div>
+            </div>
+            <p class="credits" data-i18n="fam.3.credit">Peppa Pig © Entertainment One (Hasbro). The Backyardigans © Nickelodeon and Nelvana. Shown only as examples of characters you can add; Shusher is not affiliated with them.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="strip">
+        <div class="card"><span class="material-symbols-rounded">nightlight</span><b data-i18n="s.1">Soft, never flashing</b></div>
+        <div class="card"><span class="material-symbols-rounded">bolt</span><b data-i18n="s.2">Quick Settings button</b></div>
+        <div class="card"><span class="material-symbols-rounded">battery_charging_full</span><b data-i18n="s.3">Battery friendly</b></div>
+        <div class="card"><span class="material-symbols-rounded">language</span><b data-i18n="s.4">4 languages</b></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="privacy">
+        <h2 data-i18n="priv.h2">Your audio never leaves the device</h2>
+        <p data-i18n="priv.p">Shusher doesn’t even have internet access. Sound is only used to measure volume and is discarded right away. No accounts, ads or tracking.</p>
+      </div>
+    </section>
+
+    <section id="get">
+      <div class="get card">
+        <h2 data-i18n="get.h2">Get Shusher for free</h2>
+        <ol>
+          <li data-i18n="get.1">Download the APK on your Android tablet or phone.</li>
+          <li data-i18n="get.2">Open it and allow installing from that source.</li>
+          <li data-i18n="get.3">Choose a language and tap Start. Done!</li>
+        </ol>
+        <a class="btn" href="https://github.com/gmoqa/shusher/releases/latest" data-i18n="get.btn">Download APK</a>
+        <p class="dev muted" data-i18n-html="get.dev">Are you a developer? <a href="https://github.com/gmoqa/shusher">Build it from the source code</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="made"><img src="img/icon.png" alt=""><span data-i18n="foot">Made by a family, for families</span></div>
+    <nav class="links">
+      <a href="https://github.com/gmoqa/shusher"><span class="material-symbols-rounded">code</span>GitHub</a>
+      <a href="https://ko-fi.com/gmoqa"><span class="material-symbols-rounded">favorite</span><span data-i18n="foot.kofi">Support on Ko-fi</span></a>
+    </nav>
+  </footer>
+</div>
+
+<script>
+// Textos por idioma. El HTML trae el inglés: sin JavaScript la página se ve completa igual.
+const T = {
+  es: {
+    "title": "Shusher · Un aviso amable cuando la voz sube",
+    "nav.how": "Cómo funciona", "nav.families": "Para familias", "nav.get": "Descargar",
+    "hero.h1": "Un aviso amable cuando la voz sube",
+    "hero.lead": "Cuando tu hijo o hija grita mientras usa la tablet, aparece un personaje amigable haciendo «shh». Sin regaños, sin sustos.",
+    "hero.get": "Descargar para Android", "hero.how": "Ver cómo funciona",
+    "fact.free": "Gratis", "fact.offline": "Sin internet", "fact.android": "Android 8+",
+    "bubble": "shhh", "alt.hero": "Una tablet mostrando un video; la pantalla se oscurece y aparece una niña haciendo shh",
+    "how.h2": "Cómo funciona", "how.sub": "Siempre los mismos tres pasos. Que el aviso sea predecible es parte de la idea.",
+    "how.1.h": "Escucha", "how.1.p": "Con la pantalla encendida, mide qué tan fuerte suena. Nunca graba.",
+    "how.2.h": "Detecta el grito", "how.2.p": "Si el sonido llega a la zona naranja, es un grito. Los golpes cortos no cuentan.",
+    "how.3.h": "Avisa con calma", "how.3.p": "La pantalla se oscurece suave, aparece un personaje y suena un «shh». A los dos segundos, todo vuelve.",
+    "fam.h2": "Tú tienes el control", "fam.sub": "Una pantalla simple para familias y terapeutas. Estas son capturas reales.",
+    "fam.1.h": "Sensibilidad a la medida", "fam.1.p": "Habla y mira cómo se mueve la barra verde. Deja el punto justo por encima de una voz normal: solo los gritos llegarán a la zona naranja.",
+    "fam.2.h": "Mira cómo va la semana", "fam.2.p": "Cuenta los avisos de hoy y compara los últimos siete días. Menos avisos, días más tranquilos.",
+    "fam.3.h": "Sus personajes favoritos", "fam.3.p": "Trae una niña y un niño. Agrega las imágenes PNG de los personajes que tu hijo o hija conoce y quiere; aparece uno al azar.",
+    "fam.3.credit": "Peppa Pig © Entertainment One (Hasbro). Los Backyardigans © Nickelodeon y Nelvana. Se muestran solo como ejemplo de personajes que puedes agregar; Shusher no está afiliado a ellos.",
+    "fam.3.add": "+ PNG",
+    "alt.sens": "Captura: la tarjeta de sensibilidad con la barra verde y la zona naranja",
+    "alt.hist": "Captura: los avisos de hoy y de los últimos siete días",
+    "s.1": "Suave, nunca parpadea", "s.2": "Botón en ajustes rápidos", "s.3": "Cuida la batería", "s.4": "4 idiomas",
+    "priv.h2": "Tu audio nunca sale del dispositivo",
+    "priv.p": "Shusher ni siquiera tiene acceso a internet. El sonido solo se usa para medir el volumen y se descarta al instante. Sin cuentas, publicidad ni rastreo.",
+    "get.h2": "Consigue Shusher gratis",
+    "get.1": "Descarga el APK en tu tablet o teléfono Android.", "get.2": "Ábrelo y permite instalar desde esa fuente.", "get.3": "Elige el idioma y toca Activar. ¡Listo!",
+    "get.btn": "Descargar APK",
+    "get.dev": "¿Desarrollas? <a href=\"https://github.com/gmoqa/shusher\">Compílalo desde el código</a>.",
+    "foot": "Hecho por una familia, para familias", "foot.kofi": "Apoyar en Ko-fi"
+  },
+  pt: {
+    "title": "Shusher · Um aviso gentil quando a voz sobe",
+    "nav.how": "Como funciona", "nav.families": "Para famílias", "nav.get": "Baixar",
+    "hero.h1": "Um aviso gentil quando a voz sobe",
+    "hero.lead": "Quando seu filho ou filha grita enquanto usa o tablet, aparece um personagem amigável fazendo “shh”. Sem broncas, sem sustos.",
+    "hero.get": "Baixar para Android", "hero.how": "Ver como funciona",
+    "fact.free": "Grátis", "fact.offline": "Sem internet", "fact.android": "Android 8+",
+    "bubble": "shhh", "alt.hero": "Um tablet mostrando um vídeo; a tela escurece e aparece uma menina fazendo shh",
+    "how.h2": "Como funciona", "how.sub": "Sempre os mesmos três passos. Um aviso previsível faz parte da ideia.",
+    "how.1.h": "Ouve", "how.1.p": "Com a tela ligada, mede o quanto está alto. Nunca grava.",
+    "how.2.h": "Detecta o grito", "how.2.p": "Se o som chega à zona laranja, é um grito. Barulhos curtos não contam.",
+    "how.3.h": "Avisa com calma", "how.3.p": "A tela escurece suavemente, aparece um personagem e toca um “shh”. Dois segundos depois, tudo volta.",
+    "fam.h2": "Você no controle", "fam.sub": "Uma tela simples para famílias e terapeutas. Estas são capturas reais.",
+    "fam.1.h": "Sensibilidade sob medida", "fam.1.p": "Fale e veja a barra verde se mover. Deixe o ponto logo acima de uma voz normal: só os gritos chegarão à zona laranja.",
+    "fam.2.h": "Veja como vai a semana", "fam.2.p": "Conte os avisos de hoje e compare os últimos sete dias. Menos avisos, dias mais tranquilos.",
+    "fam.3.h": "Os personagens favoritos", "fam.3.p": "Vem com uma menina e um menino. Adicione as imagens PNG dos personagens que seu filho ou filha conhece e ama; um aparece ao acaso.",
+    "fam.3.credit": "Peppa Pig © Entertainment One (Hasbro). Backyardigans © Nickelodeon e Nelvana. Mostrados só como exemplo de personagens que você pode adicionar; o Shusher não tem vínculo com eles.",
+    "fam.3.add": "+ PNG",
+    "alt.sens": "Captura: o cartão de sensibilidade com a barra verde e a zona laranja",
+    "alt.hist": "Captura: os avisos de hoje e dos últimos sete dias",
+    "s.1": "Suave, nunca pisca", "s.2": "Botão nas configurações rápidas", "s.3": "Economiza bateria", "s.4": "4 idiomas",
+    "priv.h2": "Seu áudio nunca sai do aparelho",
+    "priv.p": "O Shusher nem tem acesso à internet. O som só é usado para medir o volume e é descartado na hora. Sem contas, anúncios ou rastreamento.",
+    "get.h2": "Baixe o Shusher grátis",
+    "get.1": "Baixe o APK no seu tablet ou telefone Android.", "get.2": "Abra e permita instalar dessa fonte.", "get.3": "Escolha o idioma e toque em Ativar. Pronto!",
+    "get.btn": "Baixar APK",
+    "get.dev": "É desenvolvedor? <a href=\"https://github.com/gmoqa/shusher\">Compile a partir do código</a>.",
+    "foot": "Feito por uma família, para famílias", "foot.kofi": "Apoiar no Ko-fi"
+  },
+  fr: {
+    "title": "Shusher · Un rappel tout doux quand la voix monte",
+    "nav.how": "Fonctionnement", "nav.families": "Pour les familles", "nav.get": "Télécharger",
+    "hero.h1": "Un rappel tout doux quand la voix monte",
+    "hero.lead": "Quand votre enfant crie en utilisant la tablette, un personnage sympathique apparaît et fait « chut ». Sans gronder, sans faire peur.",
+    "hero.get": "Télécharger pour Android", "hero.how": "Voir comment ça marche",
+    "fact.free": "Gratuit", "fact.offline": "Sans internet", "fact.android": "Android 8+",
+    "bubble": "chut", "alt.hero": "Une tablette affichant une vidéo ; l’écran s’assombrit et une fille fait chut",
+    "how.h2": "Comment ça marche", "how.sub": "Toujours les trois mêmes étapes. Un rappel prévisible fait partie de l’idée.",
+    "how.1.h": "Elle écoute", "how.1.p": "Écran allumé, elle mesure le niveau sonore. Elle n’enregistre jamais.",
+    "how.2.h": "Elle repère le cri", "how.2.p": "Si le son atteint la zone orange, c’est un cri. Les bruits brefs ne comptent pas.",
+    "how.3.h": "Elle rappelle, calmement", "how.3.p": "L’écran s’assombrit doucement, un personnage apparaît et un « chut » retentit. Deux secondes après, tout revient.",
+    "fam.h2": "Vous gardez la main", "fam.sub": "Un écran simple pour les familles et les thérapeutes. Ce sont de vraies captures.",
+    "fam.1.h": "Une sensibilité sur mesure", "fam.1.p": "Parlez et regardez la barre verte bouger. Placez le point juste au-dessus d’une voix normale : seuls les cris atteindront la zone orange.",
+    "fam.2.h": "Suivez la semaine", "fam.2.p": "Comptez les rappels du jour et comparez les sept derniers jours. Moins de rappels, des journées plus calmes.",
+    "fam.3.h": "Leurs personnages préférés", "fam.3.p": "Livrée avec une fille et un garçon. Ajoutez les images PNG des personnages que votre enfant connaît et aime ; l’un d’eux apparaît au hasard.",
+    "fam.3.credit": "Peppa Pig © Entertainment One (Hasbro). Les Backyardigans © Nickelodeon et Nelvana. Présentés uniquement comme exemples de personnages à ajouter ; Shusher n’est pas affilié à leurs ayants droit.",
+    "fam.3.add": "+ PNG",
+    "alt.sens": "Capture : la carte de sensibilité avec la barre verte et la zone orange",
+    "alt.hist": "Capture : les rappels du jour et des sept derniers jours",
+    "s.1": "Doux, sans clignotement", "s.2": "Bouton dans les réglages rapides", "s.3": "Économe en batterie", "s.4": "4 langues",
+    "priv.h2": "Votre son ne quitte jamais l’appareil",
+    "priv.p": "Shusher n’a même pas accès à internet. Le son sert uniquement à mesurer le volume et il est aussitôt oublié. Pas de compte, de pub ni de pistage.",
+    "get.h2": "Obtenez Shusher gratuitement",
+    "get.1": "Téléchargez l’APK sur votre tablette ou téléphone Android.", "get.2": "Ouvrez-le et autorisez l’installation depuis cette source.", "get.3": "Choisissez la langue et touchez Activer. C’est prêt !",
+    "get.btn": "Télécharger l’APK",
+    "get.dev": "Vous développez ? <a href=\"https://github.com/gmoqa/shusher\">Compilez-le depuis le code</a>.",
+    "foot": "Fait par une famille, pour les familles", "foot.kofi": "Soutenir sur Ko-fi"
+  }
+};
+const LANGS = ["en", "es", "pt", "fr"];
+const FLAGS = { en: "gb", es: "es", pt: "br", fr: "fr" }; // las mismas banderas que la app
+const btn = document.querySelector(".lang-btn"), menu = document.querySelector(".lang-menu");
+// El inglés se toma del propio HTML, así no hay que duplicarlo.
+T.en = { title: document.title,
+  "alt.hero": "A tablet playing a video; the screen dims and a girl goes shh",
+  "alt.sens": "Screenshot: the sensitivity card with the green bar and the orange zone",
+  "alt.hist": "Screenshot: today’s reminders and the last seven days" };
+document.querySelectorAll("[data-i18n]").forEach(el => T.en[el.dataset.i18n] ??= el.textContent);
+document.querySelectorAll("[data-i18n-html]").forEach(el => T.en[el.dataset.i18nHtml] ??= el.innerHTML);
+
+function apply(lang) {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.title = t.title;
+  document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t[el.dataset.i18n]);
+  document.querySelectorAll("[data-i18n-html]").forEach(el => el.innerHTML = t[el.dataset.i18nHtml]);
+  document.querySelectorAll("[data-i18n-alt]").forEach(el => el.alt = t[el.dataset.i18nAlt]);
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => el.setAttribute("aria-label", t[el.dataset.i18nAria]));
+  // Capturas en el idioma elegido: img/screens/<idioma>-<captura>.webp
+  document.querySelectorAll("[data-shot]").forEach(el => el.src = `img/screens/${lang}-${el.dataset.shot}.webp`);
+  btn.querySelector(".flag").src = `img/flags/${FLAGS[lang]}.webp`;
+  btn.querySelector(".code").textContent = lang.toUpperCase();
+  menu.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-selected", b.dataset.lang === lang));
+}
+
+function initial() {
+  const q = new URLSearchParams(location.search).get("lang");
+  let saved = null;
+  try { saved = localStorage.getItem("lang"); } catch {}
+  const browser = (navigator.languages || [navigator.language]).map(l => l.slice(0, 2));
+  return [q, saved, ...browser].find(l => LANGS.includes(l)) || "en";
+}
+
+function openMenu(open) {
+  menu.hidden = !open;
+  btn.setAttribute("aria-expanded", open);
+}
+btn.addEventListener("click", () => openMenu(menu.hidden));
+menu.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
+  try { localStorage.setItem("lang", b.dataset.lang); } catch {}
+  apply(b.dataset.lang);
+  openMenu(false);
+  btn.focus();
+}));
+document.addEventListener("click", e => { if (!document.getElementById("lang").contains(e.target)) openMenu(false); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") openMenu(false); });
+
+apply(initial());
+</script>
+</body>
+</html>

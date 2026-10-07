@@ -1,0 +1,11 @@
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Azul del borde del ícono: si una máscara deja ver el fondo, no asoma blanco. -->
+    <background>
+        <color android:color="#FF2AA0FD" />
+    </background>
+    <!-- El cuadrado azul ocupa 75 de 108 dp: ninguna máscara de launcher le corta el pelo. -->
+    <foreground android:drawable="@drawable/ic_launcher_fg" />
+    <monochrome>
+        <inset android:drawable="@drawable/ic_shush" android:inset="25%" />
+    </monochrome>
+</adaptive-icon>
