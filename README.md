@@ -34,6 +34,12 @@ python3 tools/build_site.py        # one static page per language + sitemap
 python3 tools/build_site.py --og   # also the social preview images (needs Chrome and ImageMagick)
 ```
 
+## License
+
+The code is released under the [MIT License](LICENSE). Bundled fonts, icons and flags keep their own
+licenses, and the cartoon characters on the website are not covered: see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## Credits
 
 - [Nunito](https://github.com/googlefonts/nunito) font, SIL Open Font License (`app/src/main/assets/fonts/OFL.txt`).
