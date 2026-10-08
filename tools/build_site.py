@@ -98,7 +98,7 @@ def render(lang, template, sprite):
 
 def render_privacy(lang, template):
     p = json.loads((SITE / "privacy.json").read_text(encoding="utf-8"))[lang]
-    root = "" if lang == LANGS[0] else "../../"
+    root = "../" if lang == LANGS[0] else "../../"  # privacy/ está un nivel más abajo que la portada
     url = BASE + path(lang) + "privacy/"
     alternates = "\n".join(
         [f'<link rel="alternate" hreflang="{l}" href="{BASE + path(l)}privacy/">' for l in LANGS]
