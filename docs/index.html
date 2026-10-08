@@ -162,7 +162,14 @@
   .get li { counter-increment: s; padding: 20px; border-radius: 20px; background: var(--bg); color: var(--muted); }
   .get li::before { content: counter(s); display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 10px;
     border-radius: 50%; background: var(--calm); color: #fff; font-weight: 900; border: 3px solid var(--ink); }
-  .get .dev { margin: 18px 0 0; font-size: .95rem; }
+  .get .dev { margin: 12px 0 0; font-size: .95rem; }
+  .get .badge { display: inline-block; margin-bottom: 14px; padding: 4px 14px; border-radius: 999px; border: 3px solid var(--ink);
+    background: var(--yellow); font-weight: 900; font-size: .85rem; letter-spacing: .02em; }
+  .get .intro-get { max-width: 36em; margin: 0 auto; }
+  .get li { display: flex; flex-direction: column; gap: 12px; }
+  .get li span { flex: 1; }
+  .get li::before { align-self: flex-start; }
+  .btn.small { align-self: flex-start; padding: 9px 18px; font-size: .95rem; }
 
   footer { padding: 32px 0 48px; color: var(--muted); font-size: .95rem; display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap; }
   footer img { width: 32px; height: 32px; border-radius: 8px; }
@@ -238,7 +245,7 @@
         <h1>A gentle “shh” when voices get loud</h1>
         <p class="lead">Made for autistic kids who shout while using the tablet, and for the families who support them. When a scream is heard, a friendly character pops up and goes “shh”. No scolding, no scares: just a clear signal your child can see.</p>
         <div class="buttons">
-          <a class="btn" href="#get">Download for Android</a>
+          <a class="btn" href="#get">Get early access</a>
           <a class="btn ghost" href="#how">See how it works</a>
         </div>
         <div class="facts">
@@ -337,13 +344,15 @@
 
     <section id="get">
       <div class="get card">
-        <h2>Get Shusher for free</h2>
+        <span class="badge">Early access</span>
+        <h2>Try it first on Google Play</h2>
+        <p class="muted intro-get">Shusher is in a closed test before its public launch. Join in three steps; it’s free and you can leave anytime.</p>
         <ol>
-          <li>Download the APK on your Android tablet or phone.</li>
-          <li>Open it and, if your device asks, allow installing apps from that source.</li>
-          <li>Choose your language and tap Start. That’s it!</li>
+          <li><span>Join the testers group with your Google account.</span><a class="btn small" href="https://groups.google.com/g/shusher-testers">Join the group</a></li>
+          <li><span>Accept the test invitation on Google Play.</span><a class="btn small" href="https://play.google.com/apps/testing/com.gmoqa.shusher">Become a tester</a></li>
+          <li><span>Install Shusher from Google Play on your Android phone or tablet. That’s it!</span></li>
         </ol>
-        <a class="btn" href="https://github.com/gmoqa/shusher/releases/latest">Download APK</a>
+        <p class="dev muted">Prefer not to use Google Play? <a href="https://github.com/gmoqa/shusher/releases/latest">Download the APK</a>.</p>
         <p class="dev muted">Know how to code? <a href="https://github.com/gmoqa/shusher">Build it from the source code</a>.</p>
       </div>
     </section>
