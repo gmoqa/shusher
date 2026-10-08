@@ -36,19 +36,26 @@ python3 tools/build_site.py --og   # also the social preview images (needs Chrom
 
 ## Google Play
 
-Store texts and graphics are in `fastlane/metadata/android/`, and [PLAY_STORE.md](PLAY_STORE.md) has the
-Play Console checklist and the answers for each form.
+Store texts and graphics are in `fastlane/metadata/android/`, and [fastlane/README.md](fastlane/README.md) has
+the Play Console checklist and the answers for each form.
 
 ## License
 
-The code and the original illustrations, icon and sound are released under the [MIT License](LICENSE). Bundled fonts, icons and flags keep their own
-licenses, and the cartoon characters on the website are not covered: see
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The code and the original illustrations, icon and sound are released under the [MIT License](LICENSE).
 
-## Credits
+### Third-party files
 
-- [Nunito](https://github.com/googlefonts/nunito) font, SIL Open Font License (`app/src/main/assets/fonts/OFL.txt`).
-- Flags from [flag-icons](https://github.com/lipis/flag-icons) (MIT).
-- Icons from [Material Symbols](https://github.com/google/material-design-icons) (Apache 2.0).
-- The website shows Peppa Pig (© Entertainment One / Hasbro) and The Backyardigans (© Nickelodeon / Nelvana)
-  only as examples of characters a family can add. Shusher is not affiliated with them.
+| Files | Project | License |
+|---|---|---|
+| `app/src/main/assets/fonts/Nunito.ttf`, `docs/fonts/nunito-latin.woff2` (latin subset) | [Nunito](https://github.com/googlefonts/nunito), © 2014 The Nunito Project Authors | SIL Open Font License 1.1 (`OFL.txt` next to each copy) |
+| `site/icons/*.svg`, inlined in `docs/**/index.html` | [Material Symbols](https://github.com/google/material-design-icons), © Google | Apache License 2.0 (`site/icons/LICENSE`) |
+| `docs/img/flags/*.webp` (rasterized) | [flag-icons](https://github.com/lipis/flag-icons), © 2013 Panayiotis Lipiridis | MIT (`docs/img/flags/LICENSE`) |
+| `app/src/main/res/drawable/ic_shush.xml` (the “shh” letters, converted to outlines) | [Inter](https://github.com/rsms/inter), © The Inter Project Authors | SIL Open Font License 1.1 |
+| `gradle/wrapper/*`, `gradlew`, `gradlew.bat` | [Gradle](https://gradle.org) | Apache License 2.0 |
+
+### Not covered by the MIT license
+
+`docs/img/characters/*` show Peppa Pig and Daddy Pig (© Entertainment One / Hasbro) and Pablo, Tyrone
+and Uniqua from The Backyardigans (© Nickelodeon / Nelvana). They appear on the website only as examples
+of characters a family can add. They are not part of the app, Shusher is not affiliated with their
+owners, and no license to them is granted.
