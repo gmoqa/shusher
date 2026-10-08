@@ -23,6 +23,8 @@ ICONS = ["battery_charging_full", "bolt", "check", "code", "expand_more", "heari
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE, DOCS = ROOT / "site", ROOT / "docs"
 STRINGS = json.loads((SITE / "strings.json").read_text(encoding="utf-8"))
+# La del último release publicado (el APK que se descarga), no la del código en desarrollo.
+VERSION = subprocess.run(["git", "describe", "--tags", "--abbrev=0"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip().lstrip("v")
 
 
 def path(lang):
@@ -63,6 +65,7 @@ def render(lang, template, sprite):
         "inLanguage": lang,
         "image": BASE + "img/icon.png",
         "operatingSystem": "Android 8.0+",
+        "softwareVersion": VERSION,
         "applicationCategory": "LifestyleApplication",
         "isAccessibleForFree": True,
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
@@ -74,6 +77,7 @@ def render(lang, template, sprite):
         "og_image": BASE + f"img/og-{lang}.jpg", "jsonld": json.dumps(jsonld, ensure_ascii=False),
         "icons": sprite, "lang_menu": menu, "flag": FLAGS[lang], "code": lang.upper(),
         "others": json.dumps(LANGS[1:]),
+        "version": VERSION,
         "og_alternates": "\n".join(f'<meta property="og:locale:alternate" content="{STRINGS[l]["og.locale"]}">'
                                    for l in LANGS if l != lang),
     }

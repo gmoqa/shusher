@@ -32,7 +32,7 @@
 <link rel="icon" href="../favicon.png">
 <link rel="apple-touch-icon" href="../img/icon.png">
 <link rel="preload" href="../fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Shusher", "description": "Application Android gratuite qui affiche un rappel visuel calme quand elle détecte un cri. Pensée pour les enfants autistes qui crient en utilisant leur tablette, et pour leurs familles.", "url": "https://gmoqa.github.io/shusher/fr/", "inLanguage": "fr", "image": "https://gmoqa.github.io/shusher/img/icon.png", "operatingSystem": "Android 8.0+", "applicationCategory": "LifestyleApplication", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/gmoqa/shusher/releases/latest", "codeRepository": "https://github.com/gmoqa/shusher"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Shusher", "description": "Application Android gratuite qui affiche un rappel visuel calme quand elle détecte un cri. Pensée pour les enfants autistes qui crient en utilisant leur tablette, et pour leurs familles.", "url": "https://gmoqa.github.io/shusher/fr/", "inLanguage": "fr", "image": "https://gmoqa.github.io/shusher/img/icon.png", "operatingSystem": "Android 8.0+", "softwareVersion": "1.0.1", "applicationCategory": "LifestyleApplication", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "downloadUrl": "https://github.com/gmoqa/shusher/releases/latest", "codeRepository": "https://github.com/gmoqa/shusher"}</script>
 <style>
   @font-face { font-family: "Nunito"; src: url("../fonts/nunito-latin.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
   :root {
@@ -96,19 +96,55 @@
   .screen { position: relative; aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden;
     background: /* sol, nubes, colinas y cielo: como un video infantil */
       radial-gradient(circle at 14% 20%, #FFD84D 0 8%, transparent 8.5%),
-      radial-gradient(ellipse 12% 6% at 80% 34%, #fff 98%, transparent),
-      radial-gradient(ellipse 9% 5% at 88% 31%, #fff 98%, transparent),
-      radial-gradient(ellipse 11% 5% at 34% 12%, #fff 98%, transparent),
       radial-gradient(120% 60% at 15% 105%, #7ED37A 0 45%, transparent 45.5%),
       radial-gradient(110% 55% at 90% 110%, #5CBF6A 0 45%, transparent 45.5%),
       linear-gradient(#7CCBF5, #D4F1FF);
   }
+  .clouds { position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 12% 6% at 80% 34%, #fff 98%, transparent),
+      radial-gradient(ellipse 9% 5% at 88% 31%, #fff 98%, transparent),
+      radial-gradient(ellipse 11% 5% at 34% 12%, #fff 98%, transparent); }
+  /* Controles de reproductor: deja claro que en la tablet se está viendo un video. */
+  .player { position: absolute; left: 4%; right: 4%; bottom: 5%; display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; border-radius: 14px; background: rgba(15,36,56,.35); }
+  .player::before { content: ""; border-style: solid; border-width: 8px 0 8px 13px; border-color: transparent transparent transparent #fff; }
+  .player i { flex: 1; height: 7px; border-radius: 99px; background: rgba(255,255,255,.45); overflow: hidden; }
+  .player i::before { content: ""; display: block; width: 38%; height: 100%; border-radius: inherit; background: #fff; }
   .screen .dim { position: absolute; inset: 0; background: var(--night); opacity: .5; }
   /* Centrada con aire arriba y abajo; corrida un poco a la derecha para que la cara quede al centro. */
   .screen img { position: absolute; left: 50%; top: 50%; width: auto; height: 82%; transform: translate(-44%, -48%); }
   .bubble {
     position: absolute; left: 63%; top: 12%; padding: 8px 20px; background: #fff; border: 3px solid var(--ink);
     border-radius: 999px; font-weight: 900; font-size: clamp(1.1rem, 2.2vw, 1.6rem); color: var(--ink);
+  }
+
+  /* Entrada de la portada: los textos suben uno tras otro y luego la tablet hace shh una sola vez y se queda así.
+     Sin movimiento si el sistema lo pide: se ve directo el estado final. */
+  @media (prefers-reduced-motion: no-preference) {
+    header.top, .hero > div:first-child > *, .tablet, #how .intro { animation: rise .7s cubic-bezier(.2, .8, .3, 1) both; }
+    .hero > div:first-child > :nth-child(1) { animation-delay: .1s; }
+    .hero > div:first-child > :nth-child(2) { animation-delay: .25s; }
+    .hero > div:first-child > :nth-child(3) { animation-delay: .4s; }
+    .hero > div:first-child > :nth-child(4) { animation-delay: .55s; }
+    .tablet { animation-delay: .35s; }
+    #how .intro { animation-delay: .7s; }
+    .clouds { animation: drift 7s ease-in-out infinite alternate; }
+    .player i::before { animation: play 40s linear both; }
+    .screen .dim { animation: dim .8s 1.6s both; }
+    .screen img { animation: pop .8s 1.8s cubic-bezier(.3, 1.4, .5, 1) both; }
+    .bubble { animation: say .5s 2.4s cubic-bezier(.3, 1.6, .5, 1) both; }
+    .meter::before { animation: wobble 2.4s ease-in-out infinite alternate; }
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+  @keyframes play { from { width: 30%; } to { width: 100%; } }
+  @keyframes drift { to { transform: translateX(-6%); } }
+  @keyframes dim { from { opacity: 0; } }
+  @keyframes pop { from { opacity: 0; transform: translate(-44%, -30%) scale(.6); } }
+  @keyframes say { from { opacity: 0; transform: scale(.4) rotate(-8deg); } }
+  @keyframes wobble {
+    0% { clip-path: inset(0 70% 0 0 round 99px); } 40% { clip-path: inset(0 45% 0 0 round 99px); }
+    70% { clip-path: inset(0 55% 0 0 round 99px); } 100% { clip-path: inset(0 10% 0 0 round 99px); }
   }
 
   section { padding: 64px 0; }
@@ -127,8 +163,11 @@
   .ear { font-size: 72px; color: var(--sky); }
   .meter { position: relative; width: 78%; height: 28px; border: 3px solid var(--ink); border-radius: 99px;
     background: linear-gradient(90deg, var(--quiet) 0 68%, var(--alert) 68%); }
-  .meter::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 78%; border-radius: 99px; background: var(--warm); }
-  .meter::after { content: ""; position: absolute; left: 68%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px;
+  /* El relleno ocupa todo el ancho, verde hasta la perilla y rojo después; se recorta para mostrar el volumen.
+     Así solo se pone rojo cuando de verdad pasa la marca. */
+  .meter::before { content: ""; position: absolute; left: 6px; right: 6px; top: 6px; bottom: 6px; border-radius: 99px;
+    background: linear-gradient(90deg, var(--mint) calc(68% + 2px), var(--warm) 0); clip-path: inset(0 10% 0 0 round 99px); }
+  .meter::after { content: ""; position: absolute; left: 68%; top: 50%; width: 30px; height: 30px; margin: -18px 0 0 -18px; /* 30 + 2 × 3 de borde */
     border-radius: 50%; background: #fff; border: 3px solid var(--ink); box-shadow: inset 0 0 0 8px #fff, inset 0 0 0 14px var(--ink); }
   .step .mini { width: auto; height: 150px; margin-top: 30px; }
 
@@ -194,7 +233,7 @@
     .step p { margin: 4px 0 0; font-size: .98rem; }
     .ear { font-size: 48px; }
     .meter { width: 86%; height: 20px; }
-    .meter::after { width: 22px; height: 22px; margin: -11px 0 0 -11px; box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 10px var(--ink); }
+    .meter::after { width: 22px; height: 22px; margin: -14px 0 0 -14px; box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 10px var(--ink); }
     .meter::before { left: 4px; top: 4px; bottom: 4px; }
     .step .mini { height: 96px; margin-top: 18px; }
     .step h3 { font-size: 1.2rem; }
@@ -249,6 +288,8 @@
       </div>
       <div class="tablet" role="img" aria-label="Une tablette affichant une vidéo ; l’écran s’assombrit et une fille fait chut">
         <div class="screen">
+          <div class="clouds"></div>
+          <div class="player"><i></i></div>
           <div class="dim"></div>
           <img src="../img/girl.webp" width="379" height="560" alt="" fetchpriority="high">
           <div class="bubble" aria-hidden="true">chut</div>
@@ -350,7 +391,7 @@
   </main>
 
   <footer>
-    <div class="made"><img src="../img/logo.webp" width="32" height="32" alt="" loading="lazy"><span>Fait par une famille, pour les familles</span></div>
+    <div class="made"><img src="../img/logo.webp" width="32" height="32" alt="" loading="lazy"><span><b>Shusher</b> v1.0.1 · Fait par <a href="https://github.com/gmoqa">@gmoqa</a> pour Salvador et d’autres familles autistes</span></div>
     <nav class="links">
       <a href="../fr/privacy/">Confidentialité</a>
       <a href="https://github.com/gmoqa/shusher"><svg class="i" aria-hidden="true"><use href="#i-code"/></svg>GitHub</a>
