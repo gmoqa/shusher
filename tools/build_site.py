@@ -5,6 +5,7 @@ una página estática por idioma, con hreflang, URL canónica, datos estructurad
 
     python3 tools/build_site.py          # páginas y sitemap
     python3 tools/build_site.py --og     # además, las imágenes para compartir (requiere google-chrome e ImageMagick)
+    python3 tools/build_site.py --play   # además, la imagen destacada de Google Play en fastlane/metadata
 """
 import html
 import json
@@ -138,6 +139,32 @@ def og_images():
             print(f"docs/img/og-{lang}.jpg")
 
 
+def play_graphics():
+    # Imagen destacada de Google Play (1024x500) por idioma, con el mismo diseño que las de compartir.
+    og = (SITE / "og.html").read_text(encoding="utf-8")
+    for old, new in [("width: 1200px; height: 630px", "width: 1024px; height: 500px"),
+                     ("grid-template-columns: 1fr 500px; gap: 40px", "grid-template-columns: 1fr 430px; gap: 36px"),
+                     ("font-size: 70px", "font-size: 58px"),
+                     ("font-size: 40px; font-weight: 900; margin-bottom: 28px", "font-size: 34px; font-weight: 900; margin-bottom: 20px"),
+                     (".brand img { width: 72px; height: 72px;", ".brand img { width: 60px; height: 60px;")]:
+        assert old in og, old
+        og = og.replace(old, new)
+    locales = {"en": "en-US", "es": "es-419", "pt": "pt-BR", "fr": "fr-FR"}
+    with tempfile.TemporaryDirectory() as tmp:
+        for lang, loc in locales.items():
+            page = pathlib.Path(tmp) / f"{lang}.html"
+            page.write_text(og.replace("{{h1}}", html.escape(STRINGS[lang]["hero.h1"]))
+                              .replace("{{bubble}}", html.escape(STRINGS[lang]["bubble"]))
+                              .replace("{{docs}}", DOCS.as_uri() + "/"), encoding="utf-8")
+            shot = pathlib.Path(tmp) / f"{lang}.png"
+            subprocess.run(["google-chrome", "--headless=new", "--disable-gpu", "--hide-scrollbars",
+                            f"--user-data-dir={tmp}/chrome", "--window-size=1024,500", "--virtual-time-budget=3000",
+                            f"--screenshot={shot}", page.as_uri()], check=True, capture_output=True)
+            out = ROOT / "fastlane" / "metadata" / "android" / loc / "images" / "featureGraphic.jpg"
+            subprocess.run(["magick", shot, "-strip", "-quality", "92", out], check=True)
+            print(out.relative_to(ROOT))
+
+
 def main():
     template = (SITE / "template.html").read_text(encoding="utf-8")
     sprite = icon_sprite()
@@ -157,6 +184,8 @@ def main():
     print("docs/sitemap.xml")
     if "--og" in sys.argv:
         og_images()
+    if "--play" in sys.argv:
+        play_graphics()
 
 
 if __name__ == "__main__":
