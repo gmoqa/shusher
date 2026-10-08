@@ -19,6 +19,9 @@ import android.graphics.Typeface
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
 import android.os.Handler
@@ -96,7 +99,9 @@ class ShushService : Service() {
             addView(image)
         }
     }
-    private val backParams = overlayParams(MATCH_PARENT, touchable = false).apply { alpha = 0.65f }
+    private val backParams = overlayParams(MATCH_PARENT, touchable = false).apply {
+        alpha = 0.8f // lo más opaco que Android permite sin bloquear los toques a la app de abajo
+    }
     private val frontParams = overlayParams(WRAP_CONTENT, touchable = true)
     // Fundido suave al entrar y salir: nada aparece ni desaparece de golpe.
     private val hide = Runnable {
@@ -104,6 +109,7 @@ class ShushService : Service() {
         front.animate().alpha(0f).setDuration(FADE_MS).withEndAction {
             wm.removeView(front)
             wm.removeView(back)
+            audio.abandonAudioFocusRequest(focus) // el video o juego de abajo vuelve a sonar
             image.setImageDrawable(null)
             next = randomImage() // se decodifica ahora para que el próximo shhh no espere (~30 ms)
         }
@@ -113,7 +119,17 @@ class ShushService : Service() {
 
     // SoundPool deja el sonido decodificado en memoria (~160 KB): suena al instante,
     // MediaPlayer tardaba en crearse y en arrancar cada vez.
-    private val sounds = SoundPool.Builder().setMaxStreams(1).build()
+    private val attrs = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_MEDIA)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+    private val sounds = SoundPool.Builder().setMaxStreams(1).setAudioAttributes(attrs).build()
+    // Foco de audio transitorio: mientras dura el aviso, el video o juego de abajo se pausa o se silencia
+    // y el "shh" se escucha; al terminar se devuelve el foco y la otra app sigue.
+    private val audio by lazy { getSystemService(AudioManager::class.java) }
+    private val focus by lazy {
+        AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT).setAudioAttributes(attrs).build()
+    }
     private var shhSound = 0
     private val counts by lazy { getSharedPreferences(COUNTS, MODE_PRIVATE) }
 
@@ -151,6 +167,7 @@ class ShushService : Service() {
         running = false
         main.removeCallbacks(hide)
         sounds.release()
+        audio.abandonAudioFocusRequest(focus)
         if (back.parent != null) {
             front.animate().cancel() // cancelar no ejecuta el withEndAction que también quita las vistas
             wm.removeView(front)
@@ -205,6 +222,7 @@ class ShushService : Service() {
     private fun shush() {
         if (back.parent != null || !running || !Settings.canDrawOverlays(this)) return
         // Dura 1,7 s, menos que el aviso: así el micrófono no se dispara con su propio "shh".
+        audio.requestAudioFocus(focus)
         sounds.play(shhSound, 1f, 1f, 0, 0, 1f)
         if (nextFile?.exists() == false) next = randomImage() // la borraron desde la app
         image.setImageBitmap(next)

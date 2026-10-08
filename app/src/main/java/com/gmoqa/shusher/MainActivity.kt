@@ -174,6 +174,9 @@ class MainActivity : Activity() {
             // Sin esto Android corta la pista con bordes rectos alrededor del punto y se ve un recuadro.
             splitTrack = false
             background = null // sin la onda rectangular al tocar
+            // Margen de medio punto a cada lado: en los extremos la perilla no se corta.
+            val half = (20 * dp).toInt()
+            setPadding(half, 0, half, 0)
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(s: SeekBar, p: Int, fromUser: Boolean) {
                     ShushService.threshold = p / STEPS + MIN_DB
