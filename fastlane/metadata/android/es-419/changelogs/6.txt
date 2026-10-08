@@ -1,0 +1,2 @@
+Toca un personaje para verlo en grande y quitarlo por separado; ya no existe «Quitar todos».
+El aviso ahora oscurece toda la pantalla, sin franja clara abajo.

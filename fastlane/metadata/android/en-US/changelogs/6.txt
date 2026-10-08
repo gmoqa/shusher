@@ -1,0 +1,2 @@
+Tap a character to see it full size and remove it on its own; “Remove all” is gone.
+The reminder now dims the whole screen, with no light strip at the bottom.

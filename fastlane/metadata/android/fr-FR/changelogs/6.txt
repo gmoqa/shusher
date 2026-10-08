@@ -1,0 +1,2 @@
+Touchez un personnage pour le voir en grand et le retirer seul ; « Tout retirer » a disparu.
+Le rappel assombrit désormais tout l’écran, sans bande claire en bas.

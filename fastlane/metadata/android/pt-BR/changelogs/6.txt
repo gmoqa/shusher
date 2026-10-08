@@ -1,0 +1,2 @@
+Toque em um personagem para vê-lo em tamanho grande e removê-lo sozinho; “Remover todos” saiu.
+O aviso agora escurece a tela inteira, sem faixa clara embaixo.
