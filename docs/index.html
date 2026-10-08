@@ -137,6 +137,9 @@
     .bubble { animation: say .5s 2.4s cubic-bezier(.3, 1.6, .5, 1) both; }
     .meter::before { animation: wobble 2.4s ease-in-out infinite alternate; }
   }
+  /* Pasos de "Cómo funciona": aparecen uno tras otro al llegar a ellos (el JS pone .wait y luego .in). */
+  .step.wait { opacity: 0; }
+  .step.in { animation: rise .7s cubic-bezier(.2, .8, .3, 1) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
   @keyframes play { from { width: 30%; } to { width: 100%; } }
   @keyframes drift { to { transform: translateX(-6%); } }
@@ -410,6 +413,19 @@
   menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
     try { localStorage.setItem("lang", a.hreflang); } catch {}
   }));
+  // Pasos: se ocultan solo si hay animaciones; sin JS o con movimiento reducido se ven siempre.
+  if (matchMedia("(prefers-reduced-motion: no-preference)").matches && "IntersectionObserver" in window) {
+    const steps = [...document.querySelectorAll(".step")], t0 = performance.now();
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      // Si ya se ven al cargar, esperan a que termine la portada.
+      const base = performance.now() - t0 < 500 ? .8 : 0;
+      e.target.style.animationDelay = base + steps.indexOf(e.target) * .18 + "s";
+      e.target.classList.replace("wait", "in");
+    }), { threshold: .2 });
+    steps.forEach(el => { el.classList.add("wait"); io.observe(el); });
+  }
   // Primera visita a la portada en inglés: si el navegador está en otro idioma disponible, ir a esa página.
   if ("en" === "en") {
     let saved = null;
