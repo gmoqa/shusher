@@ -1,0 +1,2 @@
+The reminder now dims the whole screen, with no light strip at the bottom.
+New subtitle: a gentle “shh” when voices get loud.

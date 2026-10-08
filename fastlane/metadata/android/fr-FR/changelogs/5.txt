@@ -1,0 +1,2 @@
+Le rappel assombrit désormais tout l’écran, sans bande claire en bas.
+Petites retouches de texte.

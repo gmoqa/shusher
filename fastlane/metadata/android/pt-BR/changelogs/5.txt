@@ -1,0 +1,2 @@
+O aviso agora escurece a tela inteira, sem faixa clara embaixo.
+Pequenos ajustes de texto.

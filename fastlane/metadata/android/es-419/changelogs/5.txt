@@ -1,0 +1,2 @@
+El aviso ahora oscurece toda la pantalla, sin franja clara abajo.
+Nuevo subtítulo: un «shh» amable para bajar la voz.
