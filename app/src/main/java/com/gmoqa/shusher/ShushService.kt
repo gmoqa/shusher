@@ -101,6 +101,12 @@ class ShushService : Service() {
     }
     private val backParams = overlayParams(MATCH_PARENT, touchable = false).apply {
         alpha = 0.8f // lo más opaco que Android permite sin bloquear los toques a la app de abajo
+        // Cubre también detrás de las barras del sistema y el notch; si no, queda una franja sin oscurecer abajo.
+        flags = flags or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        if (Build.VERSION.SDK_INT >= 30) {
+            fitInsetsTypes = 0
+            layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+        }
     }
     private val frontParams = overlayParams(WRAP_CONTENT, touchable = true)
     // Fundido suave al entrar y salir: nada aparece ni desaparece de golpe.
