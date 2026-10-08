@@ -3,6 +3,7 @@ package com.gmoqa.shusher
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ClipDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.RippleDrawable
@@ -234,20 +236,14 @@ class MainActivity : Activity() {
                     isHorizontalScrollBarEnabled = false
                     addView(thumbs)
                 }.withGap(12),
-                LinearLayout(this@MainActivity).apply {
-                    addView(button(t("add_png"), CALM) {
-                        startActivityForResult(
-                            Intent(Intent.ACTION_GET_CONTENT)
-                                .setType("image/png")
-                                .addCategory(Intent.CATEGORY_OPENABLE)
-                                .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true),
-                            PICK_PNG,
-                        )
-                    }, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f).apply { marginEnd = (12 * dp).toInt() })
-                    addView(button(t("remove_all"), WARM) {
-                        images.listFiles()?.forEach { it.delete() }
-                        showImages()
-                    }, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
+                button(t("add_png"), CALM) {
+                    startActivityForResult(
+                        Intent(Intent.ACTION_GET_CONTENT)
+                            .setType("image/png")
+                            .addCategory(Intent.CATEGORY_OPENABLE)
+                            .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true),
+                        PICK_PNG,
+                    )
                 }.withGap(16),
             ), gap(0, 16))
 
@@ -423,8 +419,44 @@ class MainActivity : Activity() {
                 background = outlined(PASTELS[i % PASTELS.size], 18)
                 val p = (8 * dp).toInt()
                 setPadding(p, p, p, p)
+                setOnClickListener { showCharacter(f) }
             }, LinearLayout.LayoutParams(size, size).apply { marginEnd = (10 * dp).toInt() })
         }
+    }
+
+    /** El personaje en grande, tal como aparece en el aviso, con la opción de quitarlo. */
+    private fun showCharacter(f: File) {
+        val screen = resources.displayMetrics
+        val o = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeFile(f.path, o)
+        o.inSampleSize = maxOf(1, o.outHeight / screen.heightPixels)
+        o.inJustDecodeBounds = false
+        val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        // El mismo azul noche al 80 % que el aviso real.
+        dialog.window?.setBackgroundDrawable(ColorDrawable(0xCC0F2438.toInt()))
+        dialog.setContentView(column().apply {
+            gravity = Gravity.CENTER
+            val pad = (24 * dp).toInt()
+            setPadding(pad, pad, pad, pad)
+            setOnClickListener { dialog.dismiss() }
+            addView(ImageView(this@MainActivity).apply {
+                setImageBitmap(BitmapFactory.decodeFile(f.path, o))
+                adjustViewBounds = true
+                maxHeight = screen.heightPixels * 6 / 10
+            }, LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
+            addView(LinearLayout(this@MainActivity).apply {
+                addView(button(t("close"), CARD) { dialog.dismiss() }.apply { setTextColor(INK) },
+                    LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f).apply { marginEnd = (12 * dp).toInt() })
+                addView(button(t("remove"), WARM) {
+                    f.delete()
+                    showImages()
+                    dialog.dismiss()
+                }, LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f))
+            }, LinearLayout.LayoutParams((360 * dp).toInt().coerceAtMost(screen.widthPixels - 2 * pad), WRAP_CONTENT).apply {
+                topMargin = (32 * dp).toInt()
+            })
+        })
+        dialog.show()
     }
 
     // Copia los PNG elegidos tal cual (conserva la transparencia). Las galerías a veces ignoran
