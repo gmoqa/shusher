@@ -1,0 +1,3 @@
+Vídeos e jogos pausam enquanto o shh toca, para que ele sempre seja ouvido.
+O fundo do aviso ficou um pouco mais escuro.
+O botão de sensibilidade não é mais cortado nas pontas.

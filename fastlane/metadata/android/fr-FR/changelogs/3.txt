@@ -1,0 +1,3 @@
+Les vidéos et les jeux se mettent en pause pendant le chut, pour qu’il soit toujours entendu.
+Le fond du rappel est un peu plus sombre.
+Le bouton de sensibilité n’est plus coupé aux extrémités.
